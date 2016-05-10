@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link rel="stylesheet" href="src/css/test/font-awesome.min.css">
+	<link rel="stylesheet" href="src/css/test/bootstrap.min.css">
+	<!-- Custom styles for our template -->
+	<link rel="stylesheet" href="src/css/test/main.css">
+	<link rel="stylesheet" href="src/css/test/bootstrap-theme.css" media="screen" >
+</head>
+
+<body class="home">
+	<div ng-controller="showCourseTable">
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-inverse navbar-fixed-top " style="background-color: rgb(118, 184, 82)" >
+			<div class="container">
+				<div class="navbar-header">
+					<!-- Button for smallest screens -->
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+
+					<div class="navbar-brand">
+						<a><img src="img/ku-logo.png" style="width: 10%"> </a>
+						<h3 class="navbar-text" style="color: black;">Kasetsart University</h3>
+					</div>
+
+				</div>
+				<div class="navbar-collapse collapse">
+				Course Registration
+					<ul class="nav navbar-nav pull-right">
+						<li ><div ng-controller = "ProfileController">
+							<a ng-click='profile()' style="font-weight: bold;">Profile</a>
+						</div></li>
+						<li ><div ng-controller = "RegisterController">
+							<a ng-click='regis()' style="font-weight: bold;" >Register</a>
+						</div></li>
+						<li ><div ng-controller = "ReportController">
+							<a ng-click='report()'style="font-weight: bold;" >Report</a>
+						</div></li>
+						<li ><div ng-controller = "LogoutController">
+							<a ng-click='logout()' style="font-weight: bold;">Logout</a>
+						</div></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div> 
+		<!-- /.navbar -->
+		<!-- Header -->
+		<header id="head" style="padding-top: 200px">
+			<div class="container">
+				<div class="row">
+					<h1 class="lead" style="color: black">Select first, then Register</h1>
+					<p class="tagline" style="color: black; margin-bottom: 0px">use the search box below to find them</p>
+				</div>
+				<div class="list">
+					<div >
+						<div class="searchbox">
+							<div class="col-md-12 col-sm-6">
+								<div id="custom-search-input">
+									<div class="input-group col-md-12">
+										<input ng-model="searchText" type="text" class="form-control input-lg" placeholder="enter code or name" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class = "table-wrapper col-md-12 col-sm-6"> 
+							<div class = "table-scroll" style="height: 200px">
+								<table id="searchTextResults" class="table table-bordered">
+									<tbody>
+										<tr style="background-color: white" ng-repeat="x in course | filter:searchText" ng-click='showCourseInformation(x)'>
+											<td style="color:black">{{x.id}}</td>
+											<td style="color:black">{{x.name.en}} <br>{{x.name.th}}</td>
+											<td style="color:black; height: 25px; width: 25px;"><button class="btn btn-custom">Select</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- /Header -->
+
+		<!-- Highlights - jumbotron -->
+		<div class="jumbotron" style="padding-top: 0px; padding-bottom: 0px; margin-top: 20px; height: 20px; background-color: #76B852">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-6 col-sm-6 highlight" style="margin-top: 24px">
+						<p>
+							<div id='alert' class="alert alert-success" role="alert" style="margin-bottom: 15px">
+								<strong>{{alert}}</strong>
+							</div>
+						</p>
+						<ul class="list-group">
+							<li class="list-group-item" >Name: <br> {{name.name}}</li>
+							<li class="list-group-item" >Credit: <br> lab({{name.lab}}) lecture({{name.lecture}}) self({{name.self}}) total({{name.total}}) </li>
+							<li class="list-group-item" style="height: 145px">Description: <br> {{name.description}}</li>
+						</ul>
+						
+					</div>
+					<div class="col-md-6 col-sm-6 highlight">
+						<div class="list">
+							<div>
+
+								<table id="searchTextResults" class="table ">
+									<thead><tr><th class = "text">Total Credit {{totalcredit}}/24</th><th class="text">Registration for Second Semester 2015
+									</th></tr></thead>
+
+								</table>
+
+								<div class = "table-wrapper"> 
+									<div class = "table-scroll">
+										<table id="searchTextResults" class="table ">
+											<thead><tr><th class = "text">Code</th><th class="text">Name</th><th class="text">Sec</th><th class="text">Credit</th><th class="text">Drop</th></tr></thead>
+											<tbody>
+												<tr style="background-color: white" ng-repeat="y in regis track by $index" >
+													<td style="color:black; width: 10%">{{y.id}}</td>
+													<td style="color:black; width: 50%;">{{y.name.en}}</td>
+													<td style="color:black">-</td>
+													<td style="color:black">({{y.credit.lab}}-{{y.credit.lecture}}-{{y.credit.self}}){{y.credit.total}}</td>
+													<td style="color:black"><button ng-click='dropClass(y.id)'  style="font-weight: bold;">X</button></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<button type="button"  class="btn btn-custom" ng-click='registerAlert(name.id)' style="vertical-align: text-bottom">Register</button>
+								<button type="button" data-toggle="tooltip" data-placement="right" title="Convert current courses to JSON" class="btn btn-info" ng-click='toJSON()' style="vertical-align: text-bottom;">JSON</button>
+							</div>
+						</div>
+					</div>
+
+				</div> <!-- /row  -->
+
+			</div>
+		</div>
+		<!-- /Highlights -->
+	</div>
+</body>
+</html>
